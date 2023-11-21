@@ -3,8 +3,11 @@ import { useQuery } from "react-query";
 import { useLocation } from "react-router-dom";
 import { getProperty } from "../../utils/api";
 import { PuffLoader } from "react-spinners";
-import { AiFillHeart } from "react-icons/ai";
+import { AiFillHeart, AiTwotoneCar } from "react-icons/ai";
+import { FaShower } from "react-icons/fa";
+import { MdLocationPin, MdMeetingRoom } from "react-icons/md";
 import "./property.css";
+import Map from "../../components/map/Map";
 
 function Property() {
   const { pathname } = useLocation();
@@ -59,6 +62,61 @@ function Property() {
                 ${data?.price}
               </span>
             </div>
+
+            {/* -- -- -- Facilities -- -- --  */}
+
+            <div className="flexStart facilities">
+              {/* ........ Bathrooms ........ */}
+
+              <div className="flexStart facility">
+                <FaShower size={20} color="#1f3e72" />
+                <span>{data?.facilities?.bathrooms} Bathrooms</span>
+              </div>
+
+              {/* ........ Parking ......... */}
+
+              <div className="flexStart facility">
+                <AiTwotoneCar size={20} color="#1f3e72" />
+                <span>{data?.facilities?.parkings} Parking</span>
+              </div>
+
+              {/* ......... Bedrooms ......... */}
+
+              <div className="flexStart facility">
+                <MdMeetingRoom size={20} color="#1f3e72" />
+                <span>{data?.facilities?.bedrooms}Rooms</span>
+              </div>
+            </div>
+
+            {/* -- -- -- Description -- -- -- */}
+
+            <span className="secondaryText" style={{ textAlign: "justify" }}>
+              {data?.description}
+            </span>
+
+            {/* -- -- -- Address -- -- -- */}
+
+            <div className="flexStart" style={{ gap: "1rem" }}>
+              <MdLocationPin size={25} />
+              <span className="secondaryText">
+                {data?.address}
+                {data?.city}
+              </span>
+            </div>
+
+            {/* -- -- -- Booking Button -- -- --  */}
+
+            <button className="button">Book Your Visit</button>
+          </div>
+
+          {/* =========== Right Section =========== */}
+
+          <div className="right map">
+            <Map
+              address={data?.address}
+              city={data?.city}
+              country={data?.country}
+            />
           </div>
         </div>
       </div>
