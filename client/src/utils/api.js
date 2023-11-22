@@ -21,7 +21,7 @@ export const getAllProperties = async () => {
   }
 };
 
-export const getProperty = async(id) =>{
+export const getProperty = async (id) => {
   try {
     const response = await api.get(`/residency/${id}`, {
       timeout: 10 * 1000,
@@ -34,4 +34,13 @@ export const getProperty = async(id) =>{
     toast.error("Something went wrong");
     throw error;
   }
-}
+};
+
+export const createUser = async (email) => {
+  try {
+    await api.post(`/user/register`, { email });
+  } catch (error) {
+    toast.error("Something went wrong, Please try again");
+    throw error;
+  }
+};

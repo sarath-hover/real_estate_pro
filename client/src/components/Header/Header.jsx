@@ -4,16 +4,22 @@ import "./header.css";
 import { BiMenuAltRight } from "react-icons/bi";
 import OutsideClickHandler from "react-outside-click-handler";
 import { Link, NavLink } from "react-router-dom";
+import UseHeaderColor from "../hooks/UseHeaderColor";
+import { useAuth0 } from "@auth0/auth0-react";
+import ProfileMenu from "../profileMenu/ProfileMenu";
 
 const Header = () => {
   const [menuOpened, setMenuOpened] = useState(false);
+  const headerColor = UseHeaderColor();
+  const { loginWithRedirect, isAuthenticated, user, logout } = useAuth0();
+
   const getMenuStyles = (menuOpened) => {
     if (document.documentElement.clientWidth <= 800) {
       return { right: !menuOpened && "-100%" };
     }
   };
   return (
-    <section className="h-wrapper">
+    <section className="h-wrapper" style={{ background: headerColor }}>
       <div className="flexCenter paddings innerWidth h-container">
         {/* __________ Logo ____________ */}
         <Link to="/">
@@ -30,7 +36,13 @@ const Header = () => {
 
             {/* ===== Login Button =====  */}
 
-            <button className="button">Login</button>
+            {!isAuthenticated ? (
+              <button className="button" onClick={loginWithRedirect}>
+                Login
+              </button>
+            ) : (
+              <ProfileMenu user={user} logout={logout} />
+            )}
           </div>
         </OutsideClickHandler>
         <div
